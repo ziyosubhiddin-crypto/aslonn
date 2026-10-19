@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zamonaviy Aqlli Kalkulyator</title>
+  <meta name="description" content="Eng zamonaviy, qulay va ko'p funksiyali onlayn kalkulyator - Standart va Ilmiy rejimlar, hisob-kitoblar tarixi bilan.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+  <div class="calculator-wrapper">
+    <main class="calculator-card" id="calculatorApp">
+      <!-- Yuqori qism: Rejimlar, Mavzular va Tarix tugmalari -->
+      <header class="calculator-header">
+        <div class="brand">
+          <div class="logo-dot"></div>
+          <span class="app-title">Kalkulyator</span>
+        </div>
+        <div class="header-actions">
+          <button id="modeToggleBtn" class="action-btn" title="Rejimni almashtirish" aria-label="Rejimni o'zgartirish">
+            <span class="mode-text">Ilmiy</span>
+          </button>
+          <button id="themeToggleBtn" class="action-btn icon-btn" title="Mavzuni almashtirish" aria-label="Mavzuni o'zgartirish">
+            <svg class="theme-icon sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg class="theme-icon moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+          <button id="historyToggleBtn" class="action-btn icon-btn" title="Tarix" aria-label="Hisob-kitoblar tarixi">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Displey qismi -->
+      <section class="display-container" id="displayArea" title="Nusxalash uchun bosing">
+        <div class="expression-display" id="expressionDisplay" aria-live="polite"></div>
+        <div class="current-display" id="currentDisplay" aria-live="assertive">0</div>
+        <div class="copy-tooltip" id="copyTooltip">Nusxalandi! ✓</div>
+      </section>
+
+      <!-- Ilmiy tugmalar paneli (Odatiy holda yashirin yoki ochiladi) -->
+      <section class="scientific-keypad" id="scientificKeypad">
+        <button class="key func-key" data-action="sci" data-val="sin">sin</button>
+        <button class="key func-key" data-action="sci" data-val="cos">cos</button>
+        <button class="key func-key" data-action="sci" data-val="tan">tan</button>
+        <button class="key func-key" data-action="sci" data-val="log">log</button>
+        <button class="key func-key" data-action="sci" data-val="ln">ln</button>
+        
+        <button class="key func-key" data-action="sci" data-val="sqrt">√x</button>
+        <button class="key func-key" data-action="operator" data-val="^">xʸ</button>
+        <button class="key func-key" data-action="sci" data-val="square">x²</button>
+        <button class="key func-key" data-action="sci" data-val="fact">n!</button>
+        <button class="key func-key" data-action="const" data-val="pi">π</button>
+        
+        <button class="key func-key" data-action="const" data-val="e">e</button>
+        <button class="key func-key" data-action="paren" data-val="(">(</button>
+        <button class="key func-key" data-action="paren" data-val=")">)</button>
+        <button class="key func-key" data-action="sci" data-val="abs">|x|</button>
+        <button class="key func-key" data-action="sci" data-val="inv">1/x</button>
+      </section>
+
+      <!-- Asosiy tugmalar paneli -->
+      <section class="main-keypad" id="mainKeypad">
+        <button class="key special-key" id="clearAllBtn" data-action="clear" aria-label="Barchasini tozalash">AC</button>
+        <button class="key special-key" id="deleteBtn" data-action="delete" aria-label="O'chirish">⌫</button>
+        <button class="key special-key" data-action="operator" data-val="%" aria-label="Foiz">%</button>
+        <button class="key op-key" data-action="operator" data-val="/" aria-label="Bo'lish">÷</button>
+
+        <button class="key num-key" data-action="number" data-val="7">7</button>
+        <button class="key num-key" data-action="number" data-val="8">8</button>
+        <button class="key num-key" data-action="number" data-val="9">9</button>
+        <button class="key op-key" data-action="operator" data-val="*" aria-label="Ko'paytirish">×</button>
+
+        <button class="key num-key" data-action="number" data-val="4">4</button>
+        <button class="key num-key" data-action="number" data-val="5">5</button>
+        <button class="key num-key" data-action="number" data-val="6">6</button>
+        <button class="key op-key" data-action="operator" data-val="-" aria-label="Ayirish">−</button>
+
+        <button class="key num-key" data-action="number" data-val="1">1</button>
+        <button class="key num-key" data-action="number" data-val="2">2</button>
+        <button class="key num-key" data-action="number" data-val="3">3</button>
+        <button class="key op-key" data-action="operator" data-val="+" aria-label="Qo'shish">+</button>
+
+        <button class="key func-key" data-action="negate" aria-label="Musbat yoki manfiy">±</button>
+        <button class="key num-key" data-action="number" data-val="0">0</button>
+        <button class="key num-key" data-action="decimal" data-val=".">.</button>
+        <button class="key equals-key" id="equalsBtn" data-action="calculate" aria-label="Teng">=</button>
+      </section>
+
+      <!-- Tarix paneli (Slide-over drawer) -->
+      <aside class="history-drawer" id="historyDrawer" aria-hidden="true">
+        <div class="history-header">
+          <h3>Hisoblar tarixi</h3>
+          <button id="closeHistoryBtn" class="close-btn" aria-label="Tarixni yopish">✕</button>
+        </div>
+        <div class="history-list" id="historyList">
+          <p class="history-empty">Hozircha tarix mavjud emas</p>
+        </div>
+        <div class="history-footer">
+          <button id="clearHistoryBtn" class="clear-history-btn">Tarixni tozalash</button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Qisqa klaviatura qo'llanmasi -->
+    <footer class="footer-hints">
+      <p>💡 <span>Maslahat:</span> Klaviaturadan raqamlar, <b>Enter</b>, <b>Backspace</b>, <b>Esc</b>, <b>+</b>, <b>-</b>, <b>*</b>, <b>/</b> ishlatishingiz mumkin.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
